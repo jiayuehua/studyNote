@@ -23,25 +23,27 @@ s=`rg REF ports/${1}/portfile.cmake|rg VERSION`
 
 if [ -n "$s" ];
 then
- :  #包含的话，不需要改写portfile.cmake
+   #包含的话，不需要改写portfile.cmake
+ :
 elif [ ${3} = "version" ]
 then
    #  update-vcpkg-port的第三个参数是version，但是portfile.cmake中的REF字段不包含VERSION
     echo "REF field  not contain VERSION"
-    fix-portfile-vVersion ${1} ${4} 将portfile.cmake中的version字段改为新字段如"v${VERSION}"
+ # 将portfile.cmake中的version字段改为新字段如"v${VERSION}"
+    fix-portfile-vVersion ${1} ${4}
 elif [ ${3} = "ref" ]
 then
-   
    #  update-vcpkg-port的第三个参数是ref，这时候直接将REF替换为 第四个参数如某个commit的sha
-
- fix-portfile-newversion ${1} ${4}
+   fix-portfile-newversion ${1} ${4}
 fi
 
 git diff
+
 #将portfile.cmake中的sha改为新版本的的新sha
 fix-sha ${1}
 
 git diff
+
 #再安装一次
 ./vcpkg install ${1} --binarysource=clear --recurse
 ## need to check if success
@@ -53,13 +55,16 @@ then
 else
   #安装 成功
   echo success
+
   # 先提交vcpkg.json和portfile.cmake的改动
   git commit -a -m "[${1}] update to ${2}"
+
   # 再提交versions的改动
   ./vcpkg x-add-version ${1}
   git diff
   git commit -a -m "[${1}] update to ${2}"
-  git push origin -f
+  git push origin 
+
   # 创建新的pr，这里的pr的名称是commit的message，checklist是body.txt中的内容
   gh pr create --fill-first -F body.txt 
 fi
