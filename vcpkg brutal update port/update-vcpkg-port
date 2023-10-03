@@ -6,61 +6,61 @@ then
 fi
 
 
-#´´½¨ºÍportÍ¬ÃûµÄ·ÖÖ§
+#åˆ›å»ºå’ŒportåŒåçš„åˆ†æ”¯
 if [ $# -ge 4 -a ${5} = "createbranch" ];
 then
   git fetch upstream
   git checkout upstream/master -b ${1}
 fi
-#Ğ¶ÔØµôÔ­À´µÄport
+#å¸è½½æ‰åŸæ¥çš„port
 ./vcpkg remove ${1} --recurse
-#¸ÄĞ´vcpkg.jsonÖĞµÄversion×Ö¶ÎÎªĞÂ×Ö¶Î
+#æ”¹å†™vcpkg.jsonä¸­çš„versionå­—æ®µä¸ºæ–°å­—æ®µ
 fix-vcpkg ${1} ${2}
 git diff
 
-¿´Ô­À´µÄportfile.cmake ÖĞREF×Ö¶ÎÊÇ·ñ°üº¬VERSION
+çœ‹åŸæ¥çš„portfile.cmake ä¸­REFå­—æ®µæ˜¯å¦åŒ…å«VERSION
 s=`rg REF ports/${1}/portfile.cmake|rg VERSION`
 
 if [ -n "$s" ];
 then
- :  #°üº¬µÄ»°£¬²»ĞèÒª¸ÄĞ´portfile.cmake
+ :  #åŒ…å«çš„è¯ï¼Œä¸éœ€è¦æ”¹å†™portfile.cmake
 elif [ ${3} = "version" ]
 then
-   #  update-vcpkg-portµÄµÚÈı¸ö²ÎÊıÊÇversion£¬µ«ÊÇportfile.cmakeÖĞµÄREF×Ö¶Î²»°üº¬VERSION
+   #  update-vcpkg-portçš„ç¬¬ä¸‰ä¸ªå‚æ•°æ˜¯versionï¼Œä½†æ˜¯portfile.cmakeä¸­çš„REFå­—æ®µä¸åŒ…å«VERSION
     echo "REF field  not contain VERSION"
-    fix-portfile-vVersion ${1} ${4} ½«portfile.cmakeÖĞµÄversion×Ö¶Î¸ÄÎªĞÂ×Ö¶ÎÈç"v${VERSION}"
+    fix-portfile-vVersion ${1} ${4} å°†portfile.cmakeä¸­çš„versionå­—æ®µæ”¹ä¸ºæ–°å­—æ®µå¦‚"v${VERSION}"
 elif [ ${3} = "ref" ]
 then
    
-   #  update-vcpkg-portµÄµÚÈı¸ö²ÎÊıÊÇref£¬ÕâÊ±ºòÖ±½Ó½«REFÌæ»»Îª µÚËÄ¸ö²ÎÊıÈçÄ³¸öcommitµÄsha
+   #  update-vcpkg-portçš„ç¬¬ä¸‰ä¸ªå‚æ•°æ˜¯refï¼Œè¿™æ—¶å€™ç›´æ¥å°†REFæ›¿æ¢ä¸º ç¬¬å››ä¸ªå‚æ•°å¦‚æŸä¸ªcommitçš„sha
 
  fix-portfile-newversion ${1} ${4}
 fi
 
 git diff
-#½«portfile.cmakeÖĞµÄsha¸ÄÎªĞÂ°æ±¾µÄµÄĞÂsha
+#å°†portfile.cmakeä¸­çš„shaæ”¹ä¸ºæ–°ç‰ˆæœ¬çš„çš„æ–°sha
 fix-sha ${1}
 
 git diff
-#ÔÙ°²×°Ò»´Î
+#å†å®‰è£…ä¸€æ¬¡
 ./vcpkg install ${1} --binarysource=clear --recurse
 ## need to check if success
 if [ $? -ne 0 ]
 then
-  #°²×°Ê§°Ü 
+  #å®‰è£…å¤±è´¥ 
   echo fail
   exit
 else
-  #°²×° ³É¹¦
+  #å®‰è£… æˆåŠŸ
   echo success
-  # ÏÈÌá½»vcpkg.jsonºÍportfile.cmakeµÄ¸Ä¶¯
+  # å…ˆæäº¤vcpkg.jsonå’Œportfile.cmakeçš„æ”¹åŠ¨
   git commit -a -m "[${1}] update to ${2}"
-  # ÔÙÌá½»versionsµÄ¸Ä¶¯
+  # å†æäº¤versionsçš„æ”¹åŠ¨
   ./vcpkg x-add-version ${1}
   git diff
   git commit -a -m "[${1}] update to ${2}"
   git push origin -f
-  # ´´½¨ĞÂµÄpr£¬ÕâÀïµÄprµÄÃû³ÆÊÇcommitµÄmessage£¬checklistÊÇbody.txtÖĞµÄÄÚÈİ
+  # åˆ›å»ºæ–°çš„prï¼Œè¿™é‡Œçš„prçš„åç§°æ˜¯commitçš„messageï¼Œchecklistæ˜¯body.txtä¸­çš„å†…å®¹
   gh pr create --fill-first -F body.txt 
 fi
 

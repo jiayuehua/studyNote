@@ -1,34 +1,34 @@
-linux ¿ìËÙ¸üĞÂvcpkg Ê¹ÓÃµÄ½Å±¾£¬ÄÜ¹»´¦Àí·Ç³£¼òµ¥µÄportÉı¼¶£¬¸üĞÂ°æ±¾ºÅ sha512, ´´½¨version,´´½¨pr¡£
 
-Ê¹ÓÃÀı×Ó£º
+update-vcpkg-port å¯åœ¨ linux å¿«é€Ÿæ›´æ–°vcpkg ä½¿ç”¨çš„è„šæœ¬ï¼Œèƒ½å¤Ÿå¤„ç†éå¸¸ç®€å•çš„portå‡çº§ï¼Œæ›´æ–°ç‰ˆæœ¬å· sha512, åˆ›å»ºversion,åˆ›å»ºprã€‚
 
-update-vcpkg-port 
+ä½¿ç”¨ä¾‹å­ï¼š
 
-¶ÔÓÚportfileµÄREF×Ö¶Î°üº¬${VERSION}µÄÇé¿ö}
+
+å¯¹äºportfileçš„REFå­—æ®µåŒ…å«${VERSION}çš„æƒ…å†µ}
 
 ./update-vcpkg-port fruit 3.7.1 version v createbranch 
-fruitÊÇportÃû³Æ 
-3.7.1ÊÇĞÂ°æ±¾ºÅ£¬versionÊÇportfileµÄREF×Ö¶Î¸ÄĞ´Îª°üº¬"${VERSION}"£¬
-v ½«${VERSION}Ìæ»»Îªv${VERSION}
-createbranchÊÇ´´½¨·ÖÖ§
+fruitæ˜¯portåç§° 
+3.7.1æ˜¯æ–°ç‰ˆæœ¬å·ï¼Œversionæ˜¯portfileçš„REFå­—æ®µæ”¹å†™ä¸ºåŒ…å«"${VERSION}"ï¼Œ
+v å°†${VERSION}æ›¿æ¢ä¸ºv${VERSION}
+createbranchæ˜¯åˆ›å»ºåˆ†æ”¯
 
-ÔËĞĞÊ±½«ÔÚ
-  ±¾µØ´´½¨fruit·ÖÖ§£¬ĞŞ¸Ävcpkg.jsonÖĞµÄversionÎªĞÂ°æ±¾ºÅÈç3.7.1
-  ÔËĞĞÒ»´Îvcpkg install»ñÈ¡Actual hashÒ»±éĞŞ¸Äportfile
-  ÔÙÔËĞĞÒ»´Îvcpkg installÈ·±£±àÒëÍ¨¹ı
-  Èç¹û³É¹¦
-    Ìá½»ĞŞ¸Ä
-    ´´½¨pr¡£
-https://github.com/microsoft/vcpkg/pull/34182 ÊÇÒ»¸öºÏÈëºóµÄÀı×Ó
+è¿è¡Œæ—¶å°†åœ¨
+  æœ¬åœ°åˆ›å»ºfruitåˆ†æ”¯ï¼Œä¿®æ”¹vcpkg.jsonä¸­çš„versionä¸ºæ–°ç‰ˆæœ¬å·å¦‚3.7.1
+  è¿è¡Œä¸€æ¬¡vcpkg installè·å–Actual hashä¸€éä¿®æ”¹portfile
+  å†è¿è¡Œä¸€æ¬¡vcpkg installç¡®ä¿ç¼–è¯‘é€šè¿‡
+  å¦‚æœæˆåŠŸ
+    æäº¤ä¿®æ”¹
+    åˆ›å»ºprã€‚
+https://github.com/microsoft/vcpkg/pull/34182 æ˜¯ä¸€ä¸ªåˆå…¥åçš„ä¾‹å­
 
-¶ÔÓÚportfileµÄREF×Ö¶Î²»°üº¬${VERSION}µÄÇé¿ö}
-ÕâÀïportfileÖĞ
-REF×Ö¶ÎµÄÖµ½«Ìæ»»ÎªµÚËÄ¸ö²ÎÊıµÄÎÄ±¾£¬ÕâÀïÊÇÌæ»»ÎªĞÂ°æ±¾git-sha 9b4a163a9a97c900b0febd93e22dc1be3faf6e20   
+å¯¹äºportfileçš„REFå­—æ®µä¸åŒ…å«${VERSION}çš„æƒ…å†µ}
+è¿™é‡Œportfileä¸­
+REFå­—æ®µçš„å€¼å°†æ›¿æ¢ä¸ºç¬¬å››ä¸ªå‚æ•°çš„æ–‡æœ¬ï¼Œè¿™é‡Œæ˜¯æ›¿æ¢ä¸ºæ–°ç‰ˆæœ¬git-sha 9b4a163a9a97c900b0febd93e22dc1be3faf6e20   
 ./update-vcpkg-port LukasBanana/GaussianLib 2023-02-17 ref 9b4a163a9a97c900b0febd93e22dc1be3faf6e20  createbranch  
 https://github.com/microsoft/vcpkg/pull/34154 
 
 
-Ê¹ÓÃÇ°ĞèÒª°²×°gh ripgrep fd£¬ÕâĞ©¹¤¾ßÔÚlinuxÉÏÓÃbrewºÜÈİÒ××°¡£
+ä½¿ç”¨å‰éœ€è¦å®‰è£…gh ripgrep fdï¼Œè¿™äº›å·¥å…·åœ¨linuxä¸Šç”¨brewå¾ˆå®¹æ˜“è£…ã€‚
 
 
 
