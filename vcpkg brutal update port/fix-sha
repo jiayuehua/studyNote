@@ -1,0 +1,10 @@
+#!/bin/bash
+./vcpkg install $1 --binarysource=clear --recurse|tee vcpkglog.txt
+sha=`rg 'Actual hash' vcpkglog.txt|cut -c 22-149| head -n1` 
+if [ $sha ]
+then
+  sd "SHA512 .*"     "SHA512 ${sha}"         ports/$1/portfile.cmake 
+else
+  echo "can't find actual hash!!!!!!!"
+fi
+

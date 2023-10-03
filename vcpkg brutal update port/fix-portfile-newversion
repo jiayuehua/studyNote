@@ -1,0 +1,2 @@
+#!/bin/zsh
+sd " REF .*" " REF ${2}" ports/$1/portfile.cmake 
