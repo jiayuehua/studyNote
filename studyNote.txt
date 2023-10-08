@@ -159,11 +159,11 @@ make命令：
 	--no-print-directory：关闭-w，即使它被打开；
 	--warn-undefined-variables：当一个未定义的变量被引用时发出浸膏。
 
-
-
-
 patch:
 	./vcpkg x-add-version zlib  就相当于执行了  git rev-parse HEAD:ports/g3log （另外：git ls-tree {id} 会列出与这个id相关的）
+
+	 应用补丁patch -p1 < patch_file，-p1表示去掉第一层目录，在代码库中应用补丁如
+	 ~/vcpkg/buildtrees/fann/src/e53a797bbc-39f18a7610.clean master> patch -p1 < ../../../../ports/fann/fix-installation.patch
 	
 
 git：
@@ -172,6 +172,9 @@ git：
 		跳到合并界面，再最后一条commit之前把pick改为squash，然后用:wq保存并退出
 		跳到新的界面，删掉需要Merge的两条commit，然后写上新的commit名称，然后用:wq保存并退出
 
+	处理冲突可以使用git mergetool 命令，这个命令会调用你配置的合并工具，比如我配置的是kdiff3，所以会调用kdiff3工具，然后在meld工具中解决冲突，然后保存退出，git会自动帮你合并好，然后你再git add，git commit就行了, https://www.jiayuehua.com/2022/04/10/how-to-use-kdiff3-merge-code/
+
+https://github.blog/2023-08-21-highlights-from-git-2-42/ github blog对的每次git update都会有更新介绍，能了解git的新功能
 
 
 

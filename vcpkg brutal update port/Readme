@@ -1,0 +1,35 @@
+
+update-vcpkg-port 可在 linux 快速更新vcpkg 使用的脚本，能够处理非常简单的port升级，更新版本号 sha512, 创建version,创建pr。
+
+使用例子：
+
+
+对于portfile的REF字段包含${VERSION}的情况}
+
+./update-vcpkg-port fruit 3.7.1 version v createbranch 
+fruit是port名称 
+3.7.1是新版本号，version是portfile的REF字段改写为包含"${VERSION}"，
+v 将${VERSION}替换为v${VERSION}
+createbranch是创建分支
+
+运行时将在
+  本地创建fruit分支，修改vcpkg.json中的version为新版本号如3.7.1
+  运行一次vcpkg install获取Actual hash一遍修改portfile
+  再运行一次vcpkg install确保编译通过
+  如果成功
+    提交修改
+    创建pr。
+https://github.com/microsoft/vcpkg/pull/34182 是一个合入后的例子
+
+对于portfile的REF字段不包含${VERSION}的情况}
+这里portfile中
+REF字段的值将替换为第四个参数的文本，这里是替换为新版本git-sha 9b4a163a9a97c900b0febd93e22dc1be3faf6e20   
+./update-vcpkg-port LukasBanana/GaussianLib 2023-02-17 ref 9b4a163a9a97c900b0febd93e22dc1be3faf6e20  createbranch  
+https://github.com/microsoft/vcpkg/pull/34154 
+
+
+使用前需要安装gh ripgrep fd，这些工具在linux上用brew很容易装。
+
+
+
+

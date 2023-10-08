@@ -238,7 +238,9 @@ Git:
 	git revert：		撤销远程操作（回滚）。
 	git config：		配置（--global user.name/email：设置用户信息）。
 	git log：		查看git日志。
-	
+	git difftool:  使用工具查看修改内容，如vimdiff等。
+	git mergetool:  使用工具解决冲突，如kdiff3等。
+
 	远程+上游相关操作：
 	git remote -v						显示Git保存的远程仓库的简写名与其对应的 URL。
 	git remote rename branch_a branch_b	修改一个远程仓库的简写名<shortname>。
@@ -272,6 +274,42 @@ Git:
 	
 	是否熟悉生成补丁的流程？
 	是（git diff | out-file -enc ascii fix-.patch）。
+	生成多个补丁脚本vcpkgformat
+        
+    #!/bin/bash
+    CommitsNum=`git rev-list --count master`
+    git format-patch --no-stat --no-signature "-$((CommitsNum-1))"
+    sed -i -n '/^diff/,$p' 0*.patch
+
+	~/vcpkg/buildtrees/hiredis/src/repo master> git log  
+ 35d4243 (Tue Jun 13 16:34:36 2023) jiayuehua  fix cmake conf install dir
+ cffbe0d (Tue Jun 13 16:33:17 2023) jiayuehua  fix pdb install
+ c8865e9 (Tue Jun 13 16:32:12 2023) jiayuehua  support static
+ 03401e6 (Tue Jun 13 16:31:18 2023) jiayuehua  tmp
+ # 这里tmp是官方代码库的codebase tar包解压后的内容，后面三个commit是新的修改.
+~/vcpkg/buildtrees/hiredis/src/repo master> git status
+On branch master
+nothing to commit, working tree clean
+
+~/vcpkg/buildtrees/hiredis/src/repo master> vcpkgformatpatch                          
+0001-support-static.patch
+0002-fix-pdb-install.patch
+0003-fix-cmake-conf-install-dir.patch
+~/vcpkg/buildtrees/hiredis/src/repo master> head 0001-support-static.patch                                
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 3d52d0c..d175f0a 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -44,14 +44,13 @@ IF(WIN32)
+     ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS -DWIN32_LEAN_AND_MEAN)
+ ENDIF()
+ 
+-ADD_LIBRARY(hiredis SHARED ${hiredis_sources})
++ADD_LIBRARY(hiredis ${hiredis_sources})
+
+
+
+
 	
 	是否可以submit一个PR？
 	是（Git命令行/TortoiseGit）。

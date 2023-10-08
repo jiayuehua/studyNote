@@ -1,0 +1,4 @@
+#!/bin/zsh
+sed -i '/port-version/d' ports/$1/vcpkg.json
+sed -i 's/\(version.*\": \"\).*\(\"\)/\1'$2'\2/g' ports/$1/vcpkg.json
+
