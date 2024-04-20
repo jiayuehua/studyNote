@@ -12,6 +12,7 @@ install:
 
 sudo cp ./fix-* /usr/local/bin
 cp ./update-vcpkg-port YOUR_VCPKG_REPO_DIR
+cp ./body.txt YOUR_VCPKG_REPO_DIR
 
 
 usage:
