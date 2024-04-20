@@ -1,10 +1,69 @@
 
+update-vcpkg-port 
+
+install dependency tools:
+
+the bash script use: gh ripgrep sd，one can install them use brew:
+
+brew install gh sd ripgrep
+
+
+install:
+
+sudo cp ./fix-* /usr/local/bin
+cp ./update-vcpkg-port YOUR_VCPKG_REPO_DIR
+
+
+usage:
+
+
+If this port's portfile.cmake's REF Field will contains "${VERSION}" string, then in YOUR_VCPKG_REPO_DIR run command like that
+
+./update-vcpkg-port fruit 3.7.1 version v createbranch 
+
+fruit : port's name
+3.7.1: new version, will be used in port's vcpkg.json
+version: means REF field contains "${VERSION}"，
+v : REF value prefix, so REF 's value will be  "v${VERSION}"
+createbranch: create local branch named fruit, and open pull request
+
+https://github.com/microsoft/vcpkg/pull/34182 is an merged case.
+
+If this port's portfile.cmake's REF Field will NOT contains "${VERSION}" string, then in YOUR_VCPKG_REPO_DIR run
+
+./update-vcpkg-port GaussianLib 2023-02-17 ref 9b4a163a9a97c900b0febd93e22dc1be3faf6e20  createbranch  
+GaussianLib: port's name
+2023-02-17: new version, will be used in port's vcpkg.json
+ref: means REF field value will NOT contains "${VERSION}"，
+9b4a163a9a97c900b0febd93e22dc1be3faf6e20 : ref's value 
+createbranch: create local branch named GaussianLib, and open pull request
+
+https://github.com/microsoft/vcpkg/pull/34154 is an merged case.
+
+
+
+note:
+
+If one want to update two port in same pr, then you should run ./update-vcpkg-port multiple times and only the first command contains "createbranch" arg.
+for example:
+./update-vcpkg-port folly 2024.01.01.00 version v createbranch 
+./update-vcpkg-port fbthrift 2024.01.01.00 version v  
+
+So that fbthrift port's modification is on local 'folly' branch.
+
+
+usage in chinese
+
+使用前需要安装gh ripgrep sd，这些工具在linux上用brew很容易装。
+
+
+
 update-vcpkg-port 可在 linux 快速更新vcpkg 使用的脚本，能够处理非常简单的port升级，更新版本号 sha512, 创建version,创建pr。
 
 使用例子：
 
 
-对于portfile的REF字段包含${VERSION}的情况}
+对于portfile的REF字段包含${VERSION}的情况
 
 ./update-vcpkg-port fruit 3.7.1 version v createbranch 
 fruit是port名称 
@@ -26,10 +85,6 @@ https://github.com/microsoft/vcpkg/pull/34182 是一个合入后的例子
 REF字段的值将替换为第四个参数的文本，这里是替换为新版本git-sha 9b4a163a9a97c900b0febd93e22dc1be3faf6e20   
 ./update-vcpkg-port LukasBanana/GaussianLib 2023-02-17 ref 9b4a163a9a97c900b0febd93e22dc1be3faf6e20  createbranch  
 https://github.com/microsoft/vcpkg/pull/34154 
-
-
-使用前需要安装gh ripgrep fd，这些工具在linux上用brew很容易装。
-
 
 
 

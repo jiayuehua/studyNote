@@ -7,10 +7,14 @@ fi
 
 
 #创建和port同名的分支
-if [ $# -ge 4 -a ${5} = "createbranch" ];
+
+if [ $# -ge 5  ]
 then
-  git fetch upstream
-  git checkout upstream/master -b ${1}
+  if [  ${5} = "createbranch" ]
+  then
+    git fetch upstream
+    git checkout upstream/master -b ${1}
+  fi
 fi
 #卸载掉原来的port
 ./vcpkg remove ${1} --recurse
@@ -18,7 +22,7 @@ fi
 fix-vcpkg ${1} ${2}
 git diff
 
-看原来的portfile.cmake 中REF字段是否包含VERSION
+#看原来的portfile.cmake 中REF字段是否包含VERSION
 s=`rg REF ports/${1}/portfile.cmake|rg VERSION`
 
 if [ -n "$s" ];
@@ -39,6 +43,7 @@ fi
 
 git diff
 
+
 #将portfile.cmake中的sha改为新版本的的新sha
 fix-sha ${1}
 
@@ -55,6 +60,7 @@ then
 else
   #安装 成功
   echo success
+  git add ports/${1}
 
   # 先提交vcpkg.json和portfile.cmake的改动
   git commit -a -m "[${1}] update to ${2}"
@@ -66,6 +72,12 @@ else
   git push origin 
 
   # 创建新的pr，这里的pr的名称是commit的message，checklist是body.txt中的内容
-  gh pr create --fill-first -F body.txt 
+  if [ $# -ge 5  ]
+  then
+    if [ ${5} = "createbranch" ]
+    then
+      gh pr create --fill-first -F body.txt 
+    fi
+  fi
 fi
 
